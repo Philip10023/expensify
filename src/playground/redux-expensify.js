@@ -128,6 +128,23 @@ const filtersReducer = (state = filtersReducerDefaultState, action) => {
   }
 }
 
+// Get visible expenses
+const getVisibleExpenses = (expenses, { text, sortBy, startDate, endDate}) => {
+  return expenses.filter((expenses) => {
+    const startDateMatch = typeof startDate !== 'number'; || expense.createdAt >= startDate;
+    const endDateMatch = typeof endDate !== 'number' || expense.createdAt <= endDate;
+    const textMatch = expense.description.toLowerCase().includes(text.toLowerCase());
+
+    return startDateMatch && endDateMatch && textMatch;
+  }).sort((a, b) => {
+    if (sortBy === 'date') {
+      return a.createdAt < b.createdAt ? 1 : -1;
+    } else if (sortBy === 'amount') {
+      return a.amount < b.amount ? 1 : -1;
+    }
+  })
+}
+
 // Store Creation
 
 const store = createStore(
@@ -138,7 +155,9 @@ const store = createStore(
 )
 
 store.subscribe(() => {
-
+  const state = store.getState()
+  const visibleExpenses = getVisibleExpenses(state.expenses, state.filters)
+  console.log(visibleExpenses)
 })
 
 store.dispatch(addexpense({ description: 'rent', amount: 100 }))

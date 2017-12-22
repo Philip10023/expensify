@@ -1,9 +1,12 @@
-import React from 'react'
+import React from 'react';
+import ExpenseList from './ExpenseList';
+import ExpenseListFilters from './ExpenseListFilters'
 
-const ExpenseDashboard = () => (
+const ExpenseDashboardPage = () => (
   <div>
-  From dashboard component
+    <ExpenseListFilters />
+    <ExpenseList />
   </div>
-)
+);
 
-export default ExpenseDashboard
+export default ExpenseDashboardPage;
